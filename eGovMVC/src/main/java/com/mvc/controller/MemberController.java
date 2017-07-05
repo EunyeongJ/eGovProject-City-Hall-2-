@@ -57,11 +57,4 @@ public class MemberController {
 		System.out.println("로그아웃 ctrl");		
 		return memberService.memberLogout(session);
 	}
-	
-	//로그인 성공하여 게시판 들어가기
-	@RequestMapping(value = "/apprBoard")
-	public String apprBoard(){
-		return "board/apprBoard";
-	}
-	
 }

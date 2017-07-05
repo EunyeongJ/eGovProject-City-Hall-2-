@@ -17,9 +17,18 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		super.setSqlSessionFactory(sqlSessionFactory);
 	}
 	
-	//저장된 공통코드 가져오기
+	//저장된 대분류 공통코드 가져오기
 	public List<CommonCodeDTO> getCommonGroupCode(){
 		return getSqlSession().selectList("boardMapper.getCommonGroupCode");
 	}
 	
+	//대분류코드로 중분류 코드 가져오기
+	public List<CommonCodeDTO> selectChangeCheck(String groupCodeCD){
+		return getSqlSession().selectList("boardMapper.selectChangeCheck", groupCodeCD);
+	}
+	
+	//결제방법 대분류
+	public List<CommonCodeDTO> getApprCommonGroupCode(){
+		return getSqlSession().selectList("boardMapper.getApprCommonGroupCode");
+	}
 }

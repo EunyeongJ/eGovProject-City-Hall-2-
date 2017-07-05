@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 public class ApprHisDTO {
 	
 	private int doc_num;
-	private int sp_num; //내역번호
+	private String group_cd; //대분류 번호
+	private String cd; //중분류 번호
 	private String sp_div; //지출구분
 	private Date sp_date; //지출일
 	private String sp_cont; //지출내용
@@ -24,11 +25,18 @@ public class ApprHisDTO {
 		this.doc_num = doc_num;
 	}
 	
-	public int getSp_num() {
-		return sp_num;
+	public String getGroup_cd() {
+		return group_cd;
 	}
-	public void setSp_num(int sp_num) {
-		this.sp_num = sp_num;
+	public void setGroup_cd(String group_cd) {
+		this.group_cd = group_cd;
+	}
+	
+	public String getCd() {
+		return cd;
+	}
+	public void setCd(String cd) {
+		this.cd = cd;
 	}
 	
 	public String getSp_div() {

@@ -10,6 +10,11 @@
 
 ${sessionScope.mber_nm}님 <a href="../member/memberLogout"> 로그아웃 </a>
 <hr/>
+
+<a href=""> 결재 게시판 </a>
+<a href=""> 결재 대기 게시판 </a>
+<hr/>
+
 	<table border="1">
         <tr>
             <th>No</th>
@@ -31,7 +36,7 @@ ${sessionScope.mber_nm}님 <a href="../member/memberLogout"> 로그아웃 </a>
         
     </table>
     
-    <a href="../board/writeForm"> 양식 작성 </a>
+    <a href="../../board/writeForm"> 양식 작성 </a>
 
 </body>
 </html>

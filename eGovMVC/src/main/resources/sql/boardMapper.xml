@@ -8,6 +8,19 @@
 		FROM CMMN_CD
 		WHERE group_cd = 'ad01';
 	</select>
-
+	
+	<!-- 결제방법 분류 뽑아오기 -->
+	<select id="getApprCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
+		SELECT group_cd, cd, cdnm, use_yn, sn
+		FROM CMMN_CD
+		WHERE group_cd = 'ad02';
+	</select>
+	
+	<!-- 선택한 대분류가 변하는 것을 체크하여 중분류를 가져간다. -->
+	<select id="selectChangeCheck" parameterType="String" resultType="com.mvc.dao.CommonCodeDTO">
+		SELECT group_cd, cd, cdnm, use_yn, sn
+		FROM CMMN_CD
+		WHERE group_cd = #{groupCodeCD}
+	</select>
 
 </mapper>

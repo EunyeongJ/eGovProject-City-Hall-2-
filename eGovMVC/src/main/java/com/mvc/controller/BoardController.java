@@ -66,8 +66,15 @@ public class BoardController {
 	public String insertForm(ApprBoardDTO apprBoardDTO){
 		System.out.println("게시판, 양식 insert 함수!");
 		boardService.insertBoard(apprBoardDTO);
-		
 		return "redirect:apprBoard/1";		
+	}
+	
+	//게시판 글 보기!
+	@RequestMapping(value = "/viewPage/{page}")
+	public String viewPage(@PathVariable int page){
+		System.out.println("게시판 글 보기!!");
+		
+		return "board/apprViewForm";
 	}
 	
 	

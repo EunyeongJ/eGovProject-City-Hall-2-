@@ -31,7 +31,7 @@ ${sessionScope.session_mber_nm}님 <a href="../member/memberLogout"> 로그아�
 	    	<c:forEach items="${boardList}" var="boardList">
 	    		<tr>
 	    			<td>${boardList.doc_num}</td>
-	    			<td>${boardList.doc_title}</td>
+	    			<td><a href="../board/viewPage/${boardList.doc_num}">${boardList.doc_title}</a></td>
 	    			<td>${boardList.mber_num}</td>
 	    			<td>${boardList.doc_date}</td>
 	    			<td>${boardList.doc_cnt}</td>

@@ -43,7 +43,7 @@
 	
 	<!-- List 가져오기 -->
 	<select id="getBoardList" resultType="com.mvc.dao.BoardDTO">
-		select * FROM apprBoard
+		select * FROM apprBoard ORDER BY doc_num desc
 	</select>
 
 </mapper>

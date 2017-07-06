@@ -8,7 +8,7 @@
 </head>
 <body>
 
-${sessionScope.mber_nm}님 <a href="../member/memberLogout"> 로그아웃 </a>
+${sessionScope.session_mber_nm}님 <a href="../member/memberLogout"> 로그아웃 </a>
 <hr/>
 
 <a href=""> 결재 게시판 </a>
@@ -16,24 +16,29 @@ ${sessionScope.mber_nm}님 <a href="../member/memberLogout"> 로그아웃 </a>
 <hr/>
 
 	<table border="1">
-        <tr>
-            <th>No</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성날짜</th>
-            <th>조회수</th>
-            <th>진행상황</th>
-        </tr>
-       
-        <tr>
-            <td>1</td>
-            <td><a href="#">게시판</a></td>
-            <td>전은영</td>
-            <td>시간</td>
-            <td>0</td>
-            <td>결재대기</td>
-        </tr>
-        
+		<thead>
+	        <tr>
+	            <th>No</th>
+	            <th>제목</th>
+	            <th>작성자</th>
+	            <th>작성날짜</th>
+	            <th>조회수</th>
+	            <th>진행상황</th>
+	        </tr>
+	    </thead>
+	    
+	    <tbody>
+	    	<c:forEach items="${boardList}" var="boardList">
+	    		<tr>
+	    			<td>${boardList.doc_num}</td>
+	    			<td>${boardList.doc_title}</td>
+	    			<td>${boardList.mber_num}</td>
+	    			<td>${boardList.doc_date}</td>
+	    			<td>${boardList.doc_cnt}</td>
+	    			<td>조인해서 들고오기!</td>
+	    		</tr>
+	    	</c:forEach>
+	    </tbody>
     </table>
     
     <a href="../../board/writeForm"> 양식 작성 </a>

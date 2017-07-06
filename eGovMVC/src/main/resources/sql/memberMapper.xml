@@ -4,7 +4,8 @@
 
 	<!-- 회원가입 -->
 	<select id="memberJoin" parameterType="com.mvc.dao.MemberDTO">
-		INSERT INTO memberJoin(mber_id, mber_pw, mber_nm, mber_ps) VALUES (#{mber_id}, #{mber_pw}, #{mber_nm}, #{mber_ps})
+		INSERT INTO memberJoin(mber_id, mber_pw, mber_nm, mber_ps)
+		VALUES (#{mber_id}, #{mber_pw}, #{mber_nm}, #{mber_ps})
 	</select>
 	
 	<!-- 아이디 중복확인 -->
@@ -18,7 +19,7 @@
 	<select id="memberLogin" parameterType="map" resultType="int">
 		SELECT COUNT(mber_id) as id
 		FROM memberJoin
-		WHERE MBER_ID = #{mber_id} AND MBER_PW = #{mber_pw};
+		WHERE MBER_ID = #{mber_id} AND MBER_PW = #{mber_pw}
 	</select>
 	
 	<!-- 회원정보 꺼내오기 -->

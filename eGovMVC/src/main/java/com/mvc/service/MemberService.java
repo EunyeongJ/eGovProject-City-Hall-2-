@@ -48,10 +48,10 @@ public class MemberService {
 		if(loginResult >= 1){ //로그인이 되었다.
 			System.out.println("로그인 성공");
 			MemberDTO memberDTO = memberDAO.getMemberInfo(mber_id); //아이디로 멤버정보 가져와서 세션에 저장
-			session.setAttribute("mber_num", memberDTO.getMber_num()); //멤버 번호
-			session.setAttribute("mber_id", memberDTO.getMber_id()); //멤버 아이디
-			session.setAttribute("mber_nm", memberDTO.getMber_nm()); //멤버 이름
-			session.setAttribute("mber_ps", memberDTO.getMber_ps()); //멤버 직급		
+			session.setAttribute("session_mber_num", memberDTO.getMber_num()); //멤버 번호
+			session.setAttribute("session_mber_id", memberDTO.getMber_id()); //멤버 아이디
+			session.setAttribute("session_mber_nm", memberDTO.getMber_nm()); //멤버 이름
+			session.setAttribute("session_mber_ps", memberDTO.getMber_ps()); //멤버 직급		
 			
 			return "success";
 		}else{ //로그인 실패

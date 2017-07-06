@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mvc.dao.ApprBoardDTO;
+import com.mvc.dao.ApprHisDTO;
 import com.mvc.dao.CommonCodeDTO;
 import com.mvc.service.BoardService;
 
@@ -30,9 +32,10 @@ public class BoardController {
 		return "redirect:apprBoard/1";
 	}
 	
-	//처음 들어올때는 게시판이 1번 페이지...
+	//처음 들어올때는 게시판이 1번 페이지... 목록을 보여줘야함.
 	@RequestMapping(value="/apprBoard/{page}")
-	public String arrpBoard(@PathVariable int page){
+	public String arrpBoard(@PathVariable int page, Model model){
+		model.addAttribute("boardList", boardService.getBoardList()); //List채로 다 들고오기
 		return "board/apprBoard";
 	}
 	
@@ -58,8 +61,14 @@ public class BoardController {
 		return map;
 	}
 	
-	
-	
+	//넘어온 양식 insert하기!! 게시판이랑 문서에 저장하면 될듯...
+	@RequestMapping(value = "/insertForm")
+	public String insertForm(ApprBoardDTO apprBoardDTO){
+		System.out.println("게시판, 양식 insert 함수!");
+		boardService.insertBoard(apprBoardDTO);
+		
+		return "redirect:apprBoard/1";		
+	}
 	
 	
 }

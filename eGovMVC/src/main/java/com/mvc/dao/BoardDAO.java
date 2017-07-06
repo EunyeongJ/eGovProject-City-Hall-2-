@@ -31,4 +31,17 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public List<CommonCodeDTO> getApprCommonGroupCode(){
 		return getSqlSession().selectList("boardMapper.getApprCommonGroupCode");
 	}
+	
+	//list 가져오기
+	public List<BoardDTO> getBoardList(){
+		return getSqlSession().selectList("boardMapper.getBoardList");
+	}
+	
+	//양식 insert 하는 함수! 게시판에 먼저 넣고, 테이블에 따로 넣어야 겠음!
+	public void insertBoard(ApprBoardDTO apprBoardDTO){		
+		getSqlSession().insert("boardMapper.insertBoard", apprBoardDTO); //게시판에 넣기
+		getSqlSession().insert("boardMapper.insertForm", apprBoardDTO); //양식에 넣기
+		System.out.println("넣었음!");
+	}
+	
 }

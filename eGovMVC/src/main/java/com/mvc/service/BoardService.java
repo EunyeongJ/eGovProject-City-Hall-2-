@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.mvc.dao.ApprBoardDTO;
+import com.mvc.dao.ApprHisDTO;
 import com.mvc.dao.BoardDAO;
+import com.mvc.dao.BoardDTO;
 import com.mvc.dao.CommonCodeDTO;
 
 @Component
@@ -38,6 +41,16 @@ public class BoardService {
 	//결제 방법 공통코드
 	public List<CommonCodeDTO> getApprCommonGroupCode(){
 		return boardDAO.getApprCommonGroupCode();
+	}
+	
+	//list가져오기
+	public List<BoardDTO> getBoardList(){
+		return boardDAO.getBoardList();
+	}
+	
+	//양식 insert 함수
+	public void insertBoard(ApprBoardDTO apprBoardDTO){
+		boardDAO.insertBoard(apprBoardDTO);
 	}
 	
 	

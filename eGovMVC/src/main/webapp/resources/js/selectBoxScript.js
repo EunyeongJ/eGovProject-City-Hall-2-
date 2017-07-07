@@ -4,7 +4,7 @@ function changeSelectCheck(val){
 	
 	$.ajax({
 		type:"POST",
-		url:'../board/selectChangeCheck',
+		url:'/test/board/selectChangeCheck',
 		data:{"groupCodeCD" : val},
 		success:function(data){
 			console.log("성공");		
@@ -23,25 +23,23 @@ function changeSelectCheck(val){
 	}); 
 }
 
-
+//글을 작성하고 추가를 누르면 새로운 양식이 떠야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!수정하기
 $(document).ready(function(){
 	//table 추가
 	$("#column_add").click(function(){
 		
 		//item의 최대번호 구하기
 		var lastItemNo = $("#apprTable tr:last").attr("class").replace("item", ""); //속성이 "class"인...
-		var newItem = $("#apprTable tr:eq(1)").clone();
+		var newItem = $("#apprTable tr:eq(2)").clone(); //tr을 복제
 		newItem.removeClass();
 		newItem.find("td:eq(0)").attr("rowspan","1");
 		newItem.addClass("item"+(parseInt(lastItemNo)+1)); //클래스에 1씩 더해준다.
 		
 		$("#apprTable").append(newItem);
 	});
-});
-
-
-//table 삭제
-$(document).on("click", "button[name=column_del]", function(){
-	//var trHtml = $(this).parent().parent();    
-    //trHtml.remove(); //tr 태그 삭제     
+	
+	//table 삭제
+	$("#column_del").click(function(){
+		
+	});
 });

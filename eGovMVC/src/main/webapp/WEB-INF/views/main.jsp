@@ -33,7 +33,7 @@ mySql 연결확인 : ${dual}
 		</table>
 	</form>
 
-<a href="../member/memberJoinForm"> 회원가입 </a>
+<a href="/test/member/memberJoinForm"> 회원가입 </a>
 
 </body>
 </html>

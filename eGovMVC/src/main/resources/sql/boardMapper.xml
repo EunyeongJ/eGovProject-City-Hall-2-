@@ -4,30 +4,42 @@
 
 	<!-- 대분류 뽑아오기 -->
 	<select id="getCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
-		SELECT group_cd, cd, cdnm, use_yn, sn
+		SELECT group_cd
+			, cd
+			, cdnm
+			, use_yn
+			, sn
 		FROM CMMN_CD
 		WHERE group_cd = 'ad01'
 	</select>
 	
 	<!-- 결제방법 분류 뽑아오기 -->
 	<select id="getApprCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
-		SELECT group_cd, cd, cdnm, use_yn, sn
+		SELECT group_cd
+			, cd
+			, cdnm
+			, use_yn
+			, sn
 		FROM CMMN_CD
 		WHERE group_cd = 'ad02'
 	</select>
 	
 	<!-- 선택한 대분류가 변하는 것을 체크하여 중분류를 가져간다. -->
 	<select id="selectChangeCheck" parameterType="String" resultType="com.mvc.dao.CommonCodeDTO">
-		SELECT group_cd, cd, cdnm, use_yn, sn
+		SELECT group_cd
+			, cd
+			, cdnm
+			, use_yn
+			, sn
 		FROM CMMN_CD
 		WHERE group_cd = #{groupCodeCD}
 	</select>
 	
 	<!-- 게시판에 먼저 insert를 하고 양식들은 다른 테이블에 저장 -->
 	<insert id="insertBoard" parameterType="com.mvc.dao.ApprBoardDTO">
-		<selectKey keyProperty="doc_num" resultType="int" order="BEFORE">
-			SELECT LAST_INSERT_ID() <!-- 자동증가값의 현재값이 얼마냐 -->
-		</selectKey>
+		<!-- <selectKey keyProperty="doc_num" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey> --> <!-- 현재 게시글 번호를 알아내서 doc_group에 넣어야 함! -->
 		INSERT INTO apprBoard(doc_title, mber_num, doc_group, doc_step, doc_indent, reg_id)
 		VALUES (#{doc_title}, #{mber_num}, #{doc_num}, 1, 0, #{mber_id});
 	</insert>
@@ -42,8 +54,68 @@
 	</insert>
 	
 	<!-- List 가져오기 -->
-	<select id="getBoardList" resultType="com.mvc.dao.BoardDTO">
-		select * FROM apprBoard ORDER BY doc_num desc
+	<select id="getBoardList" resultType="com.mvc.dao.ApprBoardDTO" parameterType="map">
+	<![CDATA[ 
+		SELECT T.*
+		FROM
+		(
+		SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, V.*
+		FROM
+			(
+			SELECT A.doc_num
+				, A.doc_title
+				, M.mber_nm
+				, A.doc_date
+				, A.doc_group
+				, A.doc_step
+				, A.doc_indent
+				, A.doc_cnt
+			FROM apprBoard A INNER JOIN memberJoin M
+			ON A.mber_num = M.mber_num
+			ORDER BY doc_num DESC
+			) V JOIN (SELECT @ROWNUM := 0) R
+		)T WHERE ROWNUM >= #{first} AND ROWNUM <= #{last}
+	]]>
 	</select>
+	
+	<!-- list 갯수 가져오기 -->
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(doc_num) FROM apprBoard
+	</select>
+	
+	<!-- 글 쓴 사람 데려오기 -->
+	<select id="getApprHis" parameterType="int" resultType="com.mvc.dao.ApprBoardDTO">
+		SELECT B.doc_num
+			, B.doc_title
+			, M.mber_nm
+		FROM
+			(
+			SELECT doc_num
+				, doc_title
+				, mber_num
+			FROM apprBoard
+			WHERE doc_num = #{doc_num}
+			) B INNER JOIN memberJoin M
+			ON B.mber_num = M.mber_num
+	</select>
+	
+	<!-- doc_num에 맞는 내용 가져오기 -->
+	<select id="getApprHisCont" parameterType="int" resultType="com.mvc.dao.ApprHisDTO">
+		SELECT doc_num
+			, sp_num
+			, group_cd
+			, cd
+			, sp_div
+			, sp_date
+			, sp_cont
+			, sp_pay
+		FROM apprHis
+		WHERE doc_num = #{doc_num}
+	</select>
+	
+	<!-- 조회수 올리기 -->
+	<update id="upCount" parameterType="int">
+		UPDATE apprBoard SET doc_cnt = doc_cnt+1 WHERE doc_num = #{doc_num} 
+	</update>
 
 </mapper>

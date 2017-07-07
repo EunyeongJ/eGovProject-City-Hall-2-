@@ -8,7 +8,7 @@ function confirmId(){
 	
 	$.ajax({
 		type:"POST",
-		url:"../member/memberJoinConfirmId",
+		url:"/test/member/memberJoinConfirmId",
 		data:{"mber_id" : mber_id},
 		success:function(data){
 			if(data == 'success'){

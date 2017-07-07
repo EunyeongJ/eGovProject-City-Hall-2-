@@ -34,8 +34,8 @@ public class BoardController {
 	
 	//처음 들어올때는 게시판이 1번 페이지... 목록을 보여줘야함.
 	@RequestMapping(value="/apprBoard/{page}")
-	public String arrpBoard(@PathVariable int page, Model model){
-		model.addAttribute("boardList", boardService.getBoardList()); //List채로 다 들고오기
+	public String apprBoard(@PathVariable int page, Model model){
+		boardService.getBoardList(page, model); //List채로 다 들고오기
 		return "board/apprBoard";
 	}
 	
@@ -70,10 +70,13 @@ public class BoardController {
 	}
 	
 	//게시판 글 보기!
-	@RequestMapping(value = "/viewPage/{page}")
-	public String viewPage(@PathVariable int page){
+	@RequestMapping(value = "/viewPage/{doc_num}")
+	public String viewPage(@PathVariable int doc_num, Model model){
 		System.out.println("게시판 글 보기!!");
-		
+		model.addAttribute("boardCont", boardService.getApprHis(doc_num)); //제목이랑 작성자
+		model.addAttribute("boardApprCont", boardService.getApprHisCont(doc_num)); //결재내역
+		//조회수 올리기
+		boardService.upCount(doc_num);
 		return "board/apprViewForm";
 	}
 	

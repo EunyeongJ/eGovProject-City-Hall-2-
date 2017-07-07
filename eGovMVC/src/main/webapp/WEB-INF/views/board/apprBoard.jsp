@@ -8,10 +8,12 @@
 </head>
 <body>
 
-${sessionScope.session_mber_nm}님 <a href="../member/memberLogout"> 로그아웃 </a>
+<jsp:include page="/WEB-INF/javascriptTag.jsp" flush="true" />
+
+${sessionScope.session_mber_nm}님 <a href="/test/member/memberLogout"> 로그아웃 </a>
 <hr/>
 
-<a href=""> 결재 게시판 </a>
+<a href=""> 결재 게시판 </a> | 
 <a href=""> 결재 대기 게시판 </a>
 <hr/>
 
@@ -31,17 +33,48 @@ ${sessionScope.session_mber_nm}님 <a href="../member/memberLogout"> 로그아�
 	    	<c:forEach items="${boardList}" var="boardList">
 	    		<tr>
 	    			<td>${boardList.doc_num}</td>
-	    			<td><a href="../board/viewPage/${boardList.doc_num}">${boardList.doc_title}</a></td>
-	    			<td>${boardList.mber_num}</td>
+	    			<td><a href="/test/board/viewPage/${boardList.doc_num}">${boardList.doc_title}</a></td>
+	    			<td>${boardList.mber_nm}</td>
 	    			<td>${boardList.doc_date}</td>
 	    			<td>${boardList.doc_cnt}</td>
 	    			<td>조인해서 들고오기!</td>
 	    		</tr>
 	    	</c:forEach>
 	    </tbody>
+	    
     </table>
     
-    <a href="../../board/writeForm"> 양식 작성 </a>
+    <hr>
+	<c:if test="${count>0}">
+	    <!-- 페이지네이션 블록 -->
+	    <!-- 이전 페이지 만들기 -->
+	    <c:if test="${startPage>pageBlock}">
+	    	<a href="/test/board/apprBoard/${tempEndPage-pageBlock}"> 이전  </a>
+	    </c:if>
+	    
+	    <c:forEach var="num" begin="${startPage}" end="${endPage}">
+	    	<c:choose>
+				<c:when test="${page == num}">
+					<a href="/test/board/apprBoard/${num}">${num} &nbsp; </a>
+				</c:when>
+				
+				<c:otherwise> 
+					<a href="/test/board/apprBoard/${num}">${num} &nbsp; </a>
+				</c:otherwise>
+			</c:choose>
+	    </c:forEach>
+	    
+	    <!-- 다음 페이지 만들기 -->
+	    <c:if test="${endPage<pageCount}">
+	    	<a href="/test/board/apprBoard/${startPage+pageBlock}"> 다음  </a>
+	    </c:if>
+	</c:if>
+	<hr>
+	
+	<a href="/test/board/writeForm"> 양식 작성 </a> <br>
+    
+	게시글 갯수 : <input type="text" id="listCount"> <button id="listCountButton">보기</button> <br>
+ 	페이지 블록 갯수 : <input type="text" id="blockCount"> <button id="blockCountButton">보기</button> <br>
 
 </body>
 </html>

@@ -9,7 +9,7 @@
 <body>
 
 성공!
-<a href="../main/main"> 메인으로 </a>
+<a href="/test/main/main"> 메인으로 </a>
 
 
 </body>

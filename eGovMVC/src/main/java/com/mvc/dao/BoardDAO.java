@@ -1,5 +1,6 @@
 package com.mvc.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -33,8 +34,13 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	}
 	
 	//list 가져오기
-	public List<BoardDTO> getBoardList(){
-		return getSqlSession().selectList("boardMapper.getBoardList");
+	public List<ApprBoardDTO> getBoardList(HashMap<String, Object> map){
+		return getSqlSession().selectList("boardMapper.getBoardList", map);
+	}
+	
+	//총 list 갯수
+	public int getListCount(){
+		return getSqlSession().selectOne("boardMapper.getListCount");
 	}
 	
 	//양식 insert 하는 함수! 게시판에 먼저 넣고, 테이블에 따로 넣어야 겠음!
@@ -42,6 +48,23 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		getSqlSession().insert("boardMapper.insertBoard", apprBoardDTO); //게시판에 넣기
 		getSqlSession().insert("boardMapper.insertForm", apprBoardDTO); //양식에 넣기
 		System.out.println("넣었음!");
+	}
+	
+	//게시글 제목이랑 작성자 이름 가져오기
+	public List<ApprBoardDTO> getApprHis(int doc_num){
+		List<ApprBoardDTO> list = getSqlSession().selectList("boardMapper.getApprHis", doc_num);
+		return list;
+	}
+	
+	//결재내역 양식
+	public List<ApprBoardDTO> getApprHisCont(int doc_num){
+		List<ApprBoardDTO> list = getSqlSession().selectList("boardMapper.getApprHisCont", doc_num);
+		return list;
+	}
+	
+	//조회수 올리기
+	public void upCount(int doc_num){
+		getSqlSession().update("boardMapper.upCount", doc_num);
 	}
 	
 }

@@ -11,13 +11,13 @@
 <jsp:include page="/WEB-INF/javascriptTag.jsp" flush="true" />
 
 	<h2> 경비 지출 보고서 </h2>	
-	<form action="../board/insertForm" method="post" name="insertForm">
+	<form action="/test/board/insertForm" method="post" name="insertForm">
 		<table id="apprTable" border="1">
 			<tr>
-				<td>제목</td>
-				<td><input type="text" id="doc_title" name="doc_title"></td>
+				<th>제목</th>
+				<td><input type="text" id="doc_title" name="doc_title"> </td>
 				
-				<td>작성자</td>
+				<th>작성자</th>
 				<td><input type="text" id="mber_nm" name="mber_nm" value="${sessionScope.session_mber_nm}" disabled="disabled"></td>
 				<input type="hidden" id="mber_num" name="mber_num" value="${sessionScope.session_mber_num}">
 				<input type="hidden" id="mber_id" name="mber_id" value="${sessionScope.session_mber_id}"> <!-- 작성자 아이디 -->
@@ -71,11 +71,11 @@
 			</tr>
 		</table>
 		
-		<input type="submit" value="작성하기">		
+		<input type="submit" value="작성하기">
 	</form>
-
-	<button id="column_add" name="column_del" value=""> 추가 </button>
-	<button id="column_del" name="column_del" value=""> 삭제 </button>
 	
+	<button id="column_add" name="column_del"> 추가 </button>
+	<button id="column_del" name="column_del"> 삭제 </button>
+	<a href="/test/board/apprBoard"> 목록 </a>
 </body>
 </html>

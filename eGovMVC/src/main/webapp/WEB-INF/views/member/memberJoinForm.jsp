@@ -8,7 +8,7 @@
 <body>	
 <jsp:include page="/WEB-INF/javascriptTag.jsp" flush="true" />
 
-	<form action="../member/memberJoin" method="post" name="memberJoinForm" onsubmit="return memberJoinCheck()">
+	<form action="/test/member/memberJoin" method="post" name="memberJoinForm" onsubmit="return memberJoinCheck()">
 		<table>				
 			<tr>
 				<th>아이디</th>

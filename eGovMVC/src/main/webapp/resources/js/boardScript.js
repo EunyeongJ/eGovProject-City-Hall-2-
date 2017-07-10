@@ -1,5 +1,5 @@
-//게시글 보고싶은 갯수대로 보기
 $(document).ready(function(){
+	//게시글 보고싶은 갯수대로 보기
 	$("#listCountButton").click(function(){
 		//적은 숫자 넘겨오기
 		var listCount = $("#listCount").val();
@@ -16,4 +16,12 @@ $(document).ready(function(){
 			}
 		});
 	});	
+	
+	
+	//게시글 삭제 하시겠습니까?
+	
+	
 });
+
+
+

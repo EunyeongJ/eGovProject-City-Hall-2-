@@ -18,6 +18,19 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		super.setSqlSessionFactory(sqlSessionFactory);
 	}
 	
+	//일단 AD01 list 뽑아오기
+	public List<CommonCodeDTO> getCode(){
+		return getSqlSession().selectList("boardMapper.getCode");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//저장된 대분류 공통코드 가져오기
 	public List<CommonCodeDTO> getCommonGroupCode(){
 		return getSqlSession().selectList("boardMapper.getCommonGroupCode");

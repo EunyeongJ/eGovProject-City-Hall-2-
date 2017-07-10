@@ -21,6 +21,28 @@ public class BoardService {
 	@Autowired
 	BoardDAO boardDAO;
 	
+	//공통코드 새로 가져오기
+	public List<CommonCodeDTO> getCode(){
+		System.out.println("getCode");
+		List<CommonCodeDTO> list = boardDAO.getCode();
+		
+		for(int a=0; a<list.size(); a++){
+			System.out.println(list.get(a).getCdnm());
+		}
+		
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//저장된 공통 대분류 코드 가져오기
 	public List<CommonCodeDTO> getCommonGroupCode(){
 		return boardDAO.getCommonGroupCode();
@@ -28,6 +50,7 @@ public class BoardService {
 	
 	//대분류 공통코드 가지고 와서 중분류 만들기
 	public List<CommonCodeDTO> selectChangeCheck(HttpServletRequest request){
+		System.out.println("selectChangeCheck");
 		String groupCodeCD = "AD01" + request.getParameter("groupCodeCD"); // "AD0101" 이런식..?
 		
 		System.out.println(groupCodeCD);
@@ -102,7 +125,7 @@ public class BoardService {
 			model.addAttribute("tempEndPage", tempEndPage); //끝 페이지블록 변경 전 내용
 		}
 		
-	}
+	}	
 	
 	//양식 insert 함수
 	public void insertBoard(ApprBoardDTO apprBoardDTO){

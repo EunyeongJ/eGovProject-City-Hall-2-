@@ -39,14 +39,36 @@ public class BoardController {
 		return "board/apprBoard";
 	}
 	
-	//양식 작성
-	@RequestMapping(value = "/writeForm")
+	
+	//양식 작성 원본
+	/*@RequestMapping(value = "/writeForm")
 	public String writeForm(Model model){		
 		//대분류 공통 코드 가져와서 (list) 양식에 보여주기
+		//AD01
 		model.addAttribute("groupCode", boardService.getCommonGroupCode());
+		
+		//AD02
 		model.addAttribute("apprGroupCode", boardService.getApprCommonGroupCode());
+		
 		return "board/apprWriteForm";
+	}*/
+	
+	//양식 작성
+	@RequestMapping(value = "/writeForm")
+	public String writeForm(Model model){			
+		return "board/writeForm";
 	}
+	
+	//list 꺼내오기
+	@RequestMapping(value = "/selectCode")
+	@ResponseBody
+	public List<CommonCodeDTO> selectCode(HttpServletRequest request){
+		List<CommonCodeDTO> list = boardService.getCode();
+		return list;
+	}
+	
+	
+	
 	
 	//대분류에 따라서 중분류를 바꾸기 위한 에이잭스
 	@RequestMapping(value = "/selectChangeCheck", produces={"application/json", "application/xml"})
@@ -80,5 +102,20 @@ public class BoardController {
 		return "board/apprViewForm";
 	}
 	
+	//게시판 글 수정하기위해 doc_num을 가지고 내용을 가져온다.
+	@RequestMapping(value = "/updateForm/{doc_num}")
+	public String updateForm(@PathVariable int doc_num, Model model){
+		model.addAttribute("groupCode", boardService.getCommonGroupCode()); //대분류 내용 가져오기
+		model.addAttribute("boardCont", boardService.getApprHis(doc_num)); //제목이랑 작성자
+		model.addAttribute("boardApprCont", boardService.getApprHisCont(doc_num)); //결재내역
+		return "board/apprUpdateForm";
+	}
+	
+	//게시판 글 수정하기
+	@RequestMapping(value="/updateForm")
+	public String updatePage(){
+		
+		return "redirect:/board";
+	}
 	
 }

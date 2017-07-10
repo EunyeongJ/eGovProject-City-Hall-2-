@@ -62,6 +62,16 @@
 		</table>
 		
 		<a href="/test/board/apprBoard"> 목록 </a>
+		
+		<c:forEach items="${boardCont}" var="boardCont">		
+			<c:if test="${sessionScope.session_mber_num == boardCont.mber_num}">
+				<a href="/test/board/updateForm/${boardCont.doc_num}"> 수정 </a>
+				<a href="/test/board/deleteForm/${boardCont.doc_num}"> 삭제 </a>
+				
+				<!-- <button> 수정 </button>
+				<button> 삭제 </button> -->
+			</c:if>
+		</c:forEach>		
 	
 </body>
 </html>

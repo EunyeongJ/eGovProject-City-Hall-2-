@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardMapper">
 
+	<!-- 분류 결제코드 가져오기 -->
+	<select id="getCode" parameterType="String" resultType="com.mvc.dao.CommonCodeDTO">
+		SELECT group_cd
+			, cd
+			, cdnm
+			, use_yn
+			, sn
+		FROM CMMN_CD
+		WHERE group_cd = 'AD01'
+	</select>
+
+
+
+
+
+
+
 	<!-- 대분류 뽑아오기 -->
 	<select id="getCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
 		SELECT group_cd
@@ -65,6 +82,7 @@
 			SELECT A.doc_num
 				, A.doc_title
 				, M.mber_nm
+				, M.mber_num
 				, A.doc_date
 				, A.doc_group
 				, A.doc_step
@@ -88,6 +106,7 @@
 		SELECT B.doc_num
 			, B.doc_title
 			, M.mber_nm
+			, M.mber_num
 		FROM
 			(
 			SELECT doc_num

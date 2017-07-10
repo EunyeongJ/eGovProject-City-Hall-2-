@@ -77,5 +77,6 @@
 	<button id="column_add" name="column_del"> 추가 </button>
 	<button id="column_del" name="column_del"> 삭제 </button>
 	<a href="/test/board/apprBoard"> 목록 </a>
+	
 </body>
 </html>

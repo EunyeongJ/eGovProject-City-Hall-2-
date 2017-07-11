@@ -2,6 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardMapper">
 
+	<!-- 대분류 뽑아오기 -->
+	<!-- <select id="getCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
+		SELECT group_cd
+			, cd
+			, cdnm
+			, use_yn
+			, sn
+		FROM CMMN_CD
+		WHERE group_cd = 'ad01'
+	</select> -->
+	
+	<!-- 결제방법 분류 뽑아오기 -->
+	<!-- <select id="getApprCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
+		SELECT group_cd
+			, cd
+			, cdnm
+			, use_yn
+			, sn
+		FROM CMMN_CD
+		WHERE group_cd = 'ad02'
+	</select> -->
+	
+	<!-- 선택한 대분류가 변하는 것을 체크하여 중분류를 가져간다. -->
+	<!-- <select id="selectChangeCheck" parameterType="String" resultType="com.mvc.dao.CommonCodeDTO">
+		SELECT group_cd
+			, cd
+			, cdnm
+			, use_yn
+			, sn
+		FROM CMMN_CD
+		WHERE group_cd = #{groupCodeCD}
+	</select> -->
+
+
+
+
+
+
+
 	<!-- 분류 결제코드 가져오기 -->
 	<select id="getCode" parameterType="String" resultType="com.mvc.dao.CommonCodeDTO">
 		SELECT group_cd
@@ -10,48 +49,9 @@
 			, use_yn
 			, sn
 		FROM CMMN_CD
-		WHERE group_cd = 'AD01'
+		WHERE group_cd = #{dbParam}
 	</select>
 
-
-
-
-
-
-
-	<!-- 대분류 뽑아오기 -->
-	<select id="getCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
-		SELECT group_cd
-			, cd
-			, cdnm
-			, use_yn
-			, sn
-		FROM CMMN_CD
-		WHERE group_cd = 'ad01'
-	</select>
-	
-	<!-- 결제방법 분류 뽑아오기 -->
-	<select id="getApprCommonGroupCode" resultType="com.mvc.dao.CommonCodeDTO">
-		SELECT group_cd
-			, cd
-			, cdnm
-			, use_yn
-			, sn
-		FROM CMMN_CD
-		WHERE group_cd = 'ad02'
-	</select>
-	
-	<!-- 선택한 대분류가 변하는 것을 체크하여 중분류를 가져간다. -->
-	<select id="selectChangeCheck" parameterType="String" resultType="com.mvc.dao.CommonCodeDTO">
-		SELECT group_cd
-			, cd
-			, cdnm
-			, use_yn
-			, sn
-		FROM CMMN_CD
-		WHERE group_cd = #{groupCodeCD}
-	</select>
-	
 	<!-- 게시판에 먼저 insert를 하고 양식들은 다른 테이블에 저장 -->
 	<insert id="insertBoard" parameterType="com.mvc.dao.ApprBoardDTO">
 		<!-- <selectKey keyProperty="doc_num" resultType="int" order="AFTER">
@@ -60,6 +60,7 @@
 		INSERT INTO apprBoard(doc_title, mber_num, doc_group, doc_step, doc_indent, reg_id)
 		VALUES (#{doc_title}, #{mber_num}, #{doc_num}, 1, 0, #{mber_id});
 	</insert>
+	
 	
 	<!-- 양식 insert -->
 	<insert id="insertForm" parameterType="com.mvc.dao.ApprBoardDTO">
@@ -70,13 +71,33 @@
 		VALUES (#{doc_num}, #{group_cd}, #{cd}, #{sp_div}, #{sp_date}, #{sp_cont}, #{sp_pay}, #{mber_id})
 	</insert>
 	
+	
+	<!-- 이거!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<insert id="insert" parameterType="map">
+		<selectKey keyProperty="doc_num" resultType="int" order="BEFORE">
+			SELECT LAST_INSERT_ID() 자동증가값의 현재값이 얼마냐
+		</selectKey>
+		INSERT INTO apprHis(doc_num, group_cd, cd, sp_div, sp_date, sp_cont, sp_pay, reg_id)
+		VALUES (#{doc_num}, #{group_cd}, #{cd}, #{sp_div}, #{sp_date}, #{sp_cont}, #{sp_pay}, #{mber_id})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- List 가져오기 -->
-	<select id="getBoardList" resultType="com.mvc.dao.ApprBoardDTO" parameterType="map">
+	<select id="getBoardList" parameterType="map" resultType="com.mvc.dao.ApprBoardDTO">
 	<![CDATA[ 
 		SELECT T.*
 		FROM
 		(
-		SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, V.*
+		SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM
+			, V.*
 		FROM
 			(
 			SELECT A.doc_num
@@ -98,7 +119,8 @@
 	
 	<!-- list 갯수 가져오기 -->
 	<select id="getListCount" resultType="int">
-		SELECT COUNT(doc_num) FROM apprBoard
+		SELECT COUNT(doc_num)
+		FROM apprBoard
 	</select>
 	
 	<!-- 글 쓴 사람 데려오기 -->
@@ -134,7 +156,9 @@
 	
 	<!-- 조회수 올리기 -->
 	<update id="upCount" parameterType="int">
-		UPDATE apprBoard SET doc_cnt = doc_cnt+1 WHERE doc_num = #{doc_num} 
+		UPDATE apprBoard
+		SET doc_cnt = doc_cnt+1
+		WHERE doc_num = #{doc_num} 
 	</update>
 
 </mapper>

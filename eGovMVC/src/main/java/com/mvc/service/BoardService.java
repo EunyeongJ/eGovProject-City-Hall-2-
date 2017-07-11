@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import com.mvc.dao.ApprBoardDTO;
-import com.mvc.dao.ApprHisDTO;
+import com.mvc.dao.ApprBoardInsertDTO;
 import com.mvc.dao.BoardDAO;
-import com.mvc.dao.BoardDTO;
 import com.mvc.dao.CommonCodeDTO;
 
 @Component
@@ -21,35 +20,13 @@ public class BoardService {
 	@Autowired
 	BoardDAO boardDAO;
 	
-	//공통코드 새로 가져오기
-	public List<CommonCodeDTO> getCode(){
-		System.out.println("getCode");
-		List<CommonCodeDTO> list = boardDAO.getCode();
-		
-		for(int a=0; a<list.size(); a++){
-			System.out.println(list.get(a).getCdnm());
-		}
-		
-		return list;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//저장된 공통 대분류 코드 가져오기
-	public List<CommonCodeDTO> getCommonGroupCode(){
+	/*public List<CommonCodeDTO> getCommonGroupCode(){
 		return boardDAO.getCommonGroupCode();
-	}
+	}*/
 	
 	//대분류 공통코드 가지고 와서 중분류 만들기
-	public List<CommonCodeDTO> selectChangeCheck(HttpServletRequest request){
+	/*public List<CommonCodeDTO> selectChangeCheck(HttpServletRequest request){
 		System.out.println("selectChangeCheck");
 		String groupCodeCD = "AD01" + request.getParameter("groupCodeCD"); // "AD0101" 이런식..?
 		
@@ -61,12 +38,77 @@ public class BoardService {
 		}
 		
 		return list;
-	}
+	}*/
 	
 	//결제 방법 공통코드
-	public List<CommonCodeDTO> getApprCommonGroupCode(){
+	/*public List<CommonCodeDTO> getApprCommonGroupCode(){
 		return boardDAO.getApprCommonGroupCode();
+	}*/
+	
+	
+	
+	
+	
+	//공통코드 새로 가져오기
+	public HashMap<String, Object> getCode(HttpServletRequest request){
+		System.out.println("getCode");
+		
+		String value1 = request.getParameter("1"); //null
+		String value2 = request.getParameter("2"); //null
+		String value3 = request.getParameter("3"); //null
+		System.out.println("value1 : "+value1+", value2 : "+value2+", value3 : "+value3);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		//대분류 내역이 null이면...
+		if(value1.equals("null") && value3.equals("null")){
+			
+			String dbParam = "AD01";
+			List<CommonCodeDTO> list1 = boardDAO.getCode(dbParam); //대분류 내역 꺼내오기			
+
+			for(int a=0; a<list1.size(); a++){
+				System.out.println(list1.get(a).getCdnm());
+			}
+			
+			map.put("code1", 1);
+			map.put("list1", list1);
+			
+			//구분---------------------------------
+			
+			dbParam = "AD02";
+			List<CommonCodeDTO> list3 = boardDAO.getCode(dbParam); //구분 꺼내오기
+			
+			for(int a=0; a<list3.size(); a++){
+				System.out.println(list3.get(a).getCdnm());
+			}
+
+			map.put("code3", 3);
+			map.put("list3", list3);
+			
+			return map;			
+		}
+		
+		//대분류 내역이 null이 아니고, 중분류가 null이면
+		if(value1.length() == 2 && (value2.equals("null") || value2.length() == 2)){			
+			
+			System.out.println(value2.length());
+			
+			String dbParam = "AD01"+value1;
+			List<CommonCodeDTO> list2 = boardDAO.getCode(dbParam); //소분류 내역 꺼내오기
+			
+			for(int a=0; a<list2.size(); a++){
+				System.out.println(list2.get(a).getCdnm());
+			}
+			
+			map.put("code2", 2);
+			map.put("list2", list2);
+			
+			return map;
+		}
+				
+		return null;
 	}
+	
 	
 	//list가져오기
 	//int page는 현재 몇 페이지인지 확인하기 위함
@@ -128,9 +170,18 @@ public class BoardService {
 	}	
 	
 	//양식 insert 함수
-	public void insertBoard(ApprBoardDTO apprBoardDTO){
+	/*public void insertBoard(ApprBoardDTO apprBoardDTO){
 		boardDAO.insertBoard(apprBoardDTO);
+	}*/
+	
+	//insert 함수
+	public void insertBoard(ApprBoardInsertDTO apprBoardInsertDTO){
+		boardDAO.insertBoard(apprBoardInsertDTO);
 	}
+	
+	
+	
+	
 	
 	//게시판 제목, 작성자 보여주기 함수
 	public List<ApprBoardDTO> getApprHis(int doc_num){

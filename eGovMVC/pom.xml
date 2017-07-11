@@ -191,11 +191,20 @@
 			</dependency>
 	
 		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
+		<!-- ajax 통신에서 list나 map을 돌려줄때 -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency> 
+		
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-typehandlers-jsr310 -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis-typehandlers-jsr310</artifactId>
+		    <version>1.0.2</version>
+		</dependency>
+		
 		 
 	</dependencies>
     <build>

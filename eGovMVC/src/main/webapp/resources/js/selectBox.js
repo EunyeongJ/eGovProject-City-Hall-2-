@@ -1,7 +1,6 @@
 var count = 1;
 $(document).ready(function(){
-	alert("들어옴!");		
-	getCode(1); //처음에는 1이니까 1로 시작...
+	alert("ajax!!! 들어옴!!!");	
 	
 	//추가 버튼 누르면 행 추가되게 만들기
 	$("#column_add").click(function(){      
@@ -57,12 +56,12 @@ function getCode(code){
 			if(data.code1 == 1 && data.code3 == 3){ //조건정리
 				//$("#group_cd").find("option").remove().end().append("<option value='null'> ---대분류--- </option>"); //옵션 뜬거 지우고 새로 띄우기
 				for(var a=0; a<data.list1.length; a++){
-					console.log(data.list1[a].cd+ " , "+data.list1[a].cdnm); //콘솔 확인			
+					console.log(data.list1[a].cd+ " , "+data.list1[a].cdnm+", "+data.list1[a].group_cd); //콘솔 확인
 					$("#group_cd"+code).append("<option value='"+data.list1[a].cd+"'>"+ data.list1[a].cdnm +"</option>") //대분류 가져오기
 				}
 				
 				for(var a=0; a<data.list3.length; a++){
-					console.log(data.list3[a].cd+ " , "+data.list3[a].cdnm); //콘솔 확인			
+					console.log(data.list3[a].cd+ " , "+data.list3[a].cdnm+", "+data.list3[a].group_cd); //콘솔 확인				
 					$("#sp_div"+code).append("<option value='"+data.list3[a].cd+"'>"+ data.list3[a].cdnm +"</option>") //구분 가져오기
 				}
 			}
@@ -71,10 +70,25 @@ function getCode(code){
 			if(data.code2 == 2){ //조건 정리
 				$("#cd"+code).find("option").remove().end().append("<option value='null'> ---소분류--- </option>"); //옵션 뜬거 지우고 새로 띄우기
 				for(var a=0; a<data.list2.length; a++){
-					console.log(data.list2[a].cd+ " , "+data.list2[a].cdnm); //콘솔 확인			
+					console.log(data.list2[a].cd+ " , "+data.list2[a].cdnm+", "+data.list2[a].group_cd); //콘솔 확인					
 					$("#cd"+code).append("<option value='"+data.list2[a].cd+"'>"+ data.list2[a].cdnm +"</option>") //대분류 가져오기
 				}
 			}			
+			
+			
+			//수정하는 애들 select 시켜주기
+			//(ex) if(data.list2[a].cd == data.apprList[a].group_cd) --> 뭐 이정도로 attr("selected", "selected")
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 	
 		},
 		error:function(e){

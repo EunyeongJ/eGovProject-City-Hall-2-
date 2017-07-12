@@ -1,32 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> 양식 작성 </title>
+<title> 양식 수정 </title>
 </head>
 <body>
 
 <jsp:include page="/WEB-INF/javascriptTag.jsp" flush="true" />
-<script src="${pageContext.request.contextPath}/resources/js/selectBox.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/selectBox.js"></script> --%>
 
 <h2> 경비 지출 보고서 </h2>
-	<form action="/test/board/insertForm" method="post" onsubmit="return apprInsertCheck">
+	<form action="/test/board/insertForm" method="post">
 		<table id="apprTable" border="1">
 			<tr>
+				<th>보고서 번호</th>
 				<th>제목</th>
 				<th>작성자</th>
 			</tr>
-				
-			<tr>	
-				<td><input type="text" id="doc_title" name="doc_title"> </td>
+			
+			<tr>
+				<td>${boardCont.doc_num}</td>
+				<td><input type="text" value="${boardCont.doc_title}" /></td>		
 				<td>
-					${sessionScope.session_mber_nm}
-					<input type="hidden" id="mber_num" name="mber_num" value="${sessionScope.session_mber_num}"> <!-- 작성자 번호 -->
-					<input type="hidden" id="mber_id" name="mber_id" value="${sessionScope.session_mber_id}"> <!-- 작성자 아이디 -->
-				</td>				
-			</tr>
+					${boardCont.mber_nm}
+					<input type="hidden" id="mber_num" name="mber_num" value="${boardCont.mber_num}"> <!-- 작성자 번호 -->
+					<input type="hidden" id="mber_id" name="mber_id" value="${boardCont.mber_id}"> <!-- 작성자 아이디 -->
+				</td>
+			</tr>	
 		
 			<tr>	
 				<th>내역</th>

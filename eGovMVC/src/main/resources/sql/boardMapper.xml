@@ -51,46 +51,32 @@
 		FROM CMMN_CD
 		WHERE group_cd = #{dbParam}
 	</select>
-
+	
+	
 	<!-- 게시판에 먼저 insert를 하고 양식들은 다른 테이블에 저장 -->
 	<insert id="insertBoard" parameterType="com.mvc.dao.ApprBoardDTO">
-		<!-- <selectKey keyProperty="doc_num" resultType="int" order="AFTER">
+		<selectKey keyProperty="doc_num" resultType="int" order="AFTER">
 			SELECT LAST_INSERT_ID()
-		</selectKey> --> <!-- 현재 게시글 번호를 알아내서 doc_group에 넣어야 함! -->
+		</selectKey> <!-- 현재 게시글 번호를 알아내서 doc_group에 넣어야 함! -->
 		INSERT INTO apprBoard(doc_title, mber_num, doc_group, doc_step, doc_indent, reg_id)
 		VALUES (#{doc_title}, #{mber_num}, #{doc_num}, 1, 0, #{mber_id});
 	</insert>
 	
 	
-	<!-- 양식 insert -->
-	<insert id="insertForm" parameterType="com.mvc.dao.ApprBoardDTO">
-		<selectKey keyProperty="doc_num" resultType="int" order="BEFORE">
-			SELECT LAST_INSERT_ID() <!-- 자동증가값의 현재값이 얼마냐 -->
-		</selectKey>
-		INSERT INTO apprHis(doc_num, group_cd, cd, sp_div, sp_date, sp_cont, sp_pay, reg_id)
-		VALUES (#{doc_num}, #{group_cd}, #{cd}, #{sp_div}, #{sp_date}, #{sp_cont}, #{sp_pay}, #{mber_id})
-	</insert>
+	<!-- 현재 게시글 번호 가져오기 -->
+	<select id="getDocNum" resultType="int">
+		SELECT max(doc_num) FROM apprBoard 
+	</select>
 	
 	
-	<!-- 이거!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- insert 이거!!!!!!!!!!!!! group_cd(AD01같은거 넣어주기)-->
 	<insert id="insert" parameterType="map">
-		<selectKey keyProperty="doc_num" resultType="int" order="BEFORE">
-			SELECT LAST_INSERT_ID() 자동증가값의 현재값이 얼마냐
-		</selectKey>
 		INSERT INTO apprHis(doc_num, group_cd, cd, sp_div, sp_date, sp_cont, sp_pay, reg_id)
 		VALUES (#{doc_num}, #{group_cd}, #{cd}, #{sp_div}, #{sp_date}, #{sp_cont}, #{sp_pay}, #{mber_id})
 	</insert>
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- List 가져오기 -->
+	<!-- List 가져오기 -> 페이징 처리한 거!-->
 	<select id="getBoardList" parameterType="map" resultType="com.mvc.dao.ApprBoardDTO">
 	<![CDATA[ 
 		SELECT T.*
@@ -117,11 +103,13 @@
 	]]>
 	</select>
 	
+	
 	<!-- list 갯수 가져오기 -->
 	<select id="getListCount" resultType="int">
 		SELECT COUNT(doc_num)
 		FROM apprBoard
 	</select>
+	
 	
 	<!-- 글 쓴 사람 데려오기 -->
 	<select id="getApprHis" parameterType="int" resultType="com.mvc.dao.ApprBoardDTO">
@@ -129,6 +117,7 @@
 			, B.doc_title
 			, M.mber_nm
 			, M.mber_num
+			, M.mber_id
 		FROM
 			(
 			SELECT doc_num
@@ -140,19 +129,37 @@
 			ON B.mber_num = M.mber_num
 	</select>
 	
-	<!-- doc_num에 맞는 내용 가져오기 -->
+	
+	<!-- doc_num에 맞는 내용 가져오기!! -->
 	<select id="getApprHisCont" parameterType="int" resultType="com.mvc.dao.ApprHisDTO">
-		SELECT doc_num
-			, sp_num
-			, group_cd
-			, cd
-			, sp_div
-			, sp_date
-			, sp_cont
-			, sp_pay
-		FROM apprHis
+		SELECT b.doc_num
+			, b.sp_num	
+			, b.group_cd
+			, (
+				SELECT a.cdnm
+				FROM CMMN_CD a
+				WHERE (a.group_cd = 'AD01' AND a.cd = b.group_cd)
+			) group_cd_nm
+			, b.cd
+			,(
+				SELECT a.cdnm
+				FROM CMMN_CD a
+				WHERE (a.group_cd = CONCAT('AD01', b.group_cd) AND a.cd = b.cd)
+			) cd_nm
+			, b.sp_div 
+			,(
+				SELECT a.cdnm
+				FROM CMMN_CD a
+				WHERE (a.group_cd = 'AD02' AND a.cd = b.sp_div)
+			) sp_div_nm
+			, b.sp_date
+			, b.sp_cont
+			, b.sp_pay
+		FROM apprHis b
 		WHERE doc_num = #{doc_num}
+		ORDER BY sp_num
 	</select>
+	
 	
 	<!-- 조회수 올리기 -->
 	<update id="upCount" parameterType="int">

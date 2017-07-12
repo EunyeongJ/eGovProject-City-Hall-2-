@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommonCodeDTO {
 	
-	private String group_cd; //대분류 코드?
-	private String cd; //중분류코드?
+	private String group_cd; //대분류
+	private String cd; //소분류
 	private String cdnm; //코드 이름(내용)
 	private String use_yn; //쓸건지 말건지
 	private int sn; //나중에 정렬하거나 순서를 매길때 사용?

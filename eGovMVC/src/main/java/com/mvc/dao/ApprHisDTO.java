@@ -11,8 +11,11 @@ public class ApprHisDTO {
 	private int doc_num; //문서 번호
 	private int sp_num; //연번
 	private String group_cd; //대분류 번호
+	private String group_cd_nm; //대분류 번호 이름
 	private String cd; //소분류 번호
+	private String cd_nm; //소분류 번호 이름
 	private String sp_div; //지출구분
+	private String sp_div_nm; //지출구분 이름
 	private Date sp_date; //지출일
 	private String sp_cont; //지출내용
 	private int sp_pay; //지출금액
@@ -40,6 +43,13 @@ public class ApprHisDTO {
 		this.group_cd = group_cd;
 	}
 	
+	public String getGroup_cd_nm() {
+		return group_cd_nm;
+	}
+	public void setGroup_cd_nm(String group_cd_nm) {
+		this.group_cd_nm = group_cd_nm;
+	}
+	
 	public String getCd() {
 		return cd;
 	}
@@ -47,11 +57,25 @@ public class ApprHisDTO {
 		this.cd = cd;
 	}
 	
+	public String getCd_nm() {
+		return cd_nm;
+	}
+	public void setCd_nm(String cd_nm) {
+		this.cd_nm = cd_nm;
+	}
+	
 	public String getSp_div() {
 		return sp_div;
 	}
 	public void setSp_div(String sp_div) {
 		this.sp_div = sp_div;
+	}
+	
+	public String getSp_div_nm() {
+		return sp_div_nm;
+	}
+	public void setSp_div_nm(String sp_div_nm) {
+		this.sp_div_nm = sp_div_nm;
 	}
 	
 	public Date getSp_date() {

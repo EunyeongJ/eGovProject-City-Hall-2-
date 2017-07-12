@@ -71,7 +71,7 @@ ${sessionScope.session_mber_nm}님 <a href="/test/member/memberLogout"> 로그�
 	</c:if>
 	<hr>
 	
-	<a href="/test/board/writeForm"> 양식 작성 </a> <br>
+	<a href="/test/board/writeForm"><button>양식 작성</button></a> <br>
     
 	게시글 갯수 : <input type="text" id="listCount"> <button id="listCountButton">보기</button> <br>
  	페이지 블록 갯수 : <input type="text" id="blockCount"> <button id="blockCountButton">보기</button> <br>

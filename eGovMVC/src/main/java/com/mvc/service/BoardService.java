@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 
 import com.mvc.dao.ApprBoardDTO;
 import com.mvc.dao.ApprBoardInsertDTO;
+import com.mvc.dao.ApprHisDTO;
 import com.mvc.dao.BoardDAO;
 import com.mvc.dao.CommonCodeDTO;
 
@@ -60,7 +61,7 @@ public class BoardService {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		//대분류 내역이 null이면...
+		//대분류 내역이랑 구분이 null이면... -------> 조건 고치기
 		if(value1.equals("null") && value3.equals("null")){
 			
 			String dbParam = "AD01";
@@ -88,7 +89,7 @@ public class BoardService {
 			return map;			
 		}
 		
-		//대분류 내역이 null이 아니고, 중분류가 null이면
+		//대분류 내역이 null이 아니고, 중분류가 null이면 -------> 조건 고치기
 		if(value1.length() == 2 && (value2.equals("null") || value2.length() == 2)){			
 			
 			System.out.println(value2.length());
@@ -168,21 +169,13 @@ public class BoardService {
 		}
 		
 	}	
-	
-	//양식 insert 함수
-	/*public void insertBoard(ApprBoardDTO apprBoardDTO){
-		boardDAO.insertBoard(apprBoardDTO);
-	}*/
-	
-	//insert 함수
+		
+	//게시글 insert 함수
 	public void insertBoard(ApprBoardInsertDTO apprBoardInsertDTO){
 		boardDAO.insertBoard(apprBoardInsertDTO);
-	}
+	}	
 	
-	
-	
-	
-	
+	//게시물 가져오기------------------------------------------------------
 	//게시판 제목, 작성자 보여주기 함수
 	public List<ApprBoardDTO> getApprHis(int doc_num){
 		//게시판 제목, 작성자 불러오기
@@ -191,10 +184,11 @@ public class BoardService {
 	}
 	
 	//결재내역 양식
-	public List<ApprBoardDTO> getApprHisCont(int doc_num){
-		List<ApprBoardDTO> list = boardDAO.getApprHisCont(doc_num);
+	public List<ApprHisDTO> getApprHisCont(int doc_num){
+		List<ApprHisDTO> list = boardDAO.getApprHisCont(doc_num);
 		return list;
 	}
+	//----------------------------------------------------------------
 	
 	//조회수 올리기
 	public void upCount(int doc_num){

@@ -53,29 +53,25 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("boardMapper.getListCount");
 	}
 	
-	//양식 insert 하는 함수! 게시판에 먼저 넣고, 테이블에 따로 넣어야 겠음!
-	/*public void insertBoard(ApprBoardDTO apprBoardDTO){		
-		getSqlSession().insert("boardMapper.insertBoard", apprBoardDTO); //게시판에 넣기
-		getSqlSession().insert("boardMapper.insertForm", apprBoardDTO); //양식에 넣기
-		System.out.println("넣었음!");
-	}*/
 	
 	//새 insert!
 	public void insertBoard(ApprBoardInsertDTO apprBoardInsertDTO){	
+		System.out.println("게시판에 넣기!!!!");			
+		
 		//게시판에 넣기
-		getSqlSession().insert("boardMapper.insertBoard", apprBoardInsertDTO); 
+		getSqlSession().insert("boardMapper.insertBoard", apprBoardInsertDTO); //일단 게시판에 넣고
 		
-		//문서 넘버 map에 새로 넣으려면..
-		int doc_num = apprBoardInsertDTO.getDoc_num();
-		
+		//map에 넣어서..
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		//map.put("doc_num", apprBoardInsertDTO.getDoc_num());
-		map.put("mber_id", apprBoardInsertDTO.getMber_id());
 		
-		//for문 돌려서 넣어야 할듯...		
+		//현재 자동증가값 가져오기
+		map.put("doc_num", getSqlSession().selectOne("boardMapper.getDocNum")); //게시판에 들어간 doc_num중 max
+		map.put("mber_id", apprBoardInsertDTO.getMber_id());				
+		
+		//for문 돌려서 넣어야 하나ㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜ
 		for(int a=0; a<apprBoardInsertDTO.getGroup_cd().length; a++){
 			map.put("group_cd", apprBoardInsertDTO.getGroup_cd()[a]); //내역
-			map.put("cd", apprBoardInsertDTO.getCd()[a]); //내역
+			map.put("cd", apprBoardInsertDTO.getCd()[a]); //상세내역
 			map.put("sp_div", apprBoardInsertDTO.getSp_div()[a]); 
 			map.put("sp_date", apprBoardInsertDTO.getSp_date()[a]); 
 			map.put("sp_cont", apprBoardInsertDTO.getSp_cont()[a]);
@@ -85,7 +81,8 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		}		
 		System.out.println("넣었음!");
 	}
-	
+
+	//게시글 내용 가져오기---------------------------------------------------------------------------------
 	//게시글 제목이랑 작성자 이름 가져오기
 	public List<ApprBoardDTO> getApprHis(int doc_num){
 		List<ApprBoardDTO> list = getSqlSession().selectList("boardMapper.getApprHis", doc_num);
@@ -93,10 +90,11 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	}
 	
 	//결재내역 양식
-	public List<ApprBoardDTO> getApprHisCont(int doc_num){
-		List<ApprBoardDTO> list = getSqlSession().selectList("boardMapper.getApprHisCont", doc_num);
+	public List<ApprHisDTO> getApprHisCont(int doc_num){
+		List<ApprHisDTO> list = getSqlSession().selectList("boardMapper.getApprHisCont", doc_num);
 		return list;
 	}
+	//----------------------------------------------------------------------------------------------
 	
 	//조회수 올리기
 	public void upCount(int doc_num){

@@ -36,38 +36,6 @@
 				<th>지출내용</th>
 				<th>지출금액</th>
 			</tr>
-			
-			<tr>			
-				<!-- 대분류 -->
-				<td>			
-					<select id="group_cd1" name="group_cd" onchange="getCode(1)">				
-						<option value="null"> ---대분류--- </option>
-					</select>
-				</td>
-				
-				<!-- 소분류 -->
-				<td>				
-					<select id="cd1" name="cd">				
-						<option value="null"> ---소분류--- </option>
-					</select>
-				</td>
-				
-				<!-- 지출구분 -->
-				<td>
-					<select id="sp_div1" name="sp_div">				
-						<option value="null"> ---구분--- </option>
-					</select>				
-				</td>
-				
-				<!-- 지출일 -->
-				<td><input type="date" id="sp_date" name="sp_date"></td>
-					
-				<!-- 지출내용 -->
-				<td><input type="text" id="sp_cont" name="sp_cont"></td>			
-				
-				<!-- 지출금액 -->
-				<td><input type="text" id="sp_pay" name="sp_pay"></td>		
-			</tr>
 		</table>
 		
 		<input type="submit" value="작성하기">		

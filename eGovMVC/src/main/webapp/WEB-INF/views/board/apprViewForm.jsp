@@ -74,9 +74,8 @@
 	<a href="/test/board/apprBoard"><button>목록</button></a>
 	
 	<c:forEach items="${boardCont}" var="boardCont">		
-		<c:if test="${sessionScope.session_mber_num == boardCont.mber_num}">
-			<%-- <button id="updateForm" value="${boardCont.doc_num}"> 수정 </button> --%>
-			<a href="/test/board/updateForm/${boardCont.doc_num}"><button> 수정 </button></a>
+		<c:if test="${sessionScope.session_mber_num == boardCont.mber_num}">			
+			<a href="/test/board/updateForm/${boardCont.doc_num}"><button>수정</button></a>			
 			<%-- <a href="/test/board/deleteForm/${boardCont.doc_num}"> 삭제 </a> --%>
 		</c:if>
 	</c:forEach>		

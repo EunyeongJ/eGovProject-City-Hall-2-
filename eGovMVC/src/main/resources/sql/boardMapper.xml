@@ -53,6 +53,16 @@
 	</select>
 	
 	
+	<!-- update하기 전에 삭제하고 다시 insert -->
+
+
+
+
+	
+	
+	
+	
+	
 	<!-- 게시판에 먼저 insert를 하고 양식들은 다른 테이블에 저장 -->
 	<insert id="insertBoard" parameterType="com.mvc.dao.ApprBoardDTO">
 		<selectKey keyProperty="doc_num" resultType="int" order="AFTER">
@@ -168,4 +178,5 @@
 		WHERE doc_num = #{doc_num} 
 	</update>
 
+	
 </mapper>

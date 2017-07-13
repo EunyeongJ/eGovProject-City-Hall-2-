@@ -74,10 +74,21 @@ public class BoardController {
 	@RequestMapping(value = "/selectCode")
 	@ResponseBody
 	public HashMap<String, Object> selectCode(HttpServletRequest request){			
-		System.out.println("컨트롤러");
+		System.out.println("getCode 컨트롤러");
+		
 		HashMap<String, Object> map = boardService.getCode(request);
 		return map;
 	}
+	
+	/*@RequestMapping(value = "/selectCode")
+	@ResponseBody
+	public HashMap<String, Object> selectCode(HttpServletRequest request){			
+		System.out.println("getCode 컨트롤러");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("map1" , boardService.getCode(request));
+		map.put("map2" , updateForm(request));		
+		return map;
+	}*/
 		
 	//넘어온 양식 insert하기!! 게시판이랑 문서에 저장하면 될듯...
 	@RequestMapping(value = "/insertForm")
@@ -100,39 +111,40 @@ public class BoardController {
 		boardService.upCount(doc_num);
 		return "board/apprViewForm";
 	}
-	
-	//게시판 글 수정하기위해 doc_num을 가지고 내용을 가져온다.
-	/*@RequestMapping(value = "/updateForm/{doc_num}")
-	public String updateForm(@PathVariable int doc_num, Model model){
-		model.addAttribute("groupCode", boardService.getCommonGroupCode()); //대분류 내용 가져오기
-		model.addAttribute("boardCont", boardService.getApprHis(doc_num)); //제목이랑 작성자
-		model.addAttribute("boardApprCont", boardService.getApprHisCont(doc_num)); //결재내역
-		return "board/apprUpdateForm";
-	}*/
-	
-	//게시글 수정을 위해 글을 불러온다.
-	/*@RequestMapping(value="/updateForm")
-	@ResponseBody
-	public HashMap<String, Object> updateForm(HttpServletRequest request){
-		System.out.println("게시판 수정하기!!!");
-		int doc_num = Integer.parseInt(request.getParameter("doc_num")); //doc_num 현재 문서 넘버 알아야함...		
-		List<ApprBoardDTO> boardList = boardService.getApprHis(doc_num); //제목이랑 작성자 --> 얘는 model로 바로 박아넣고, 결재 양식만 list로 넘겨서 
-		List<ApprHisDTO> apprList = boardService.getApprHisCont(doc_num); //결재내역
-		
-		//list들을 map에 넣어서 ajax로 보내기
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("boardList", boardList);
-		map.put("apprList", apprList);
-		return map;
-		//수정할 게시글의 글을 불러와서 list에 담은 다음 ajax로 넘겨서 그걸 select box로 붙여넣어준다!
-	}*/
-	
-	
+
 	//게시판 글 수정하기
 	@RequestMapping(value="/updateForm/{doc_num}")
 	public String updatePage(@PathVariable int doc_num, Model model){
 		System.out.println("수정 폼!!!");
-		model.addAttribute("boardCont", boardService.getApprHis(doc_num)); //제목이랑 작성자 --> 얘는 model로 바로 박아넣고, 결재 양식만 list로 넘겨서 
+		List<ApprBoardDTO> list = boardService.getApprHis(doc_num);
+		System.out.println("list가져옴");
+		model.addAttribute("boardCont", list); //제목이랑 작성자 --> 얘는 model로 바로 박아넣고, 결재 양식만 list로 넘겨서 
 		return "board/updateForm";
 	}	
+	
+	
+	//게시글 수정을 위해 글을 불러온다.
+	@RequestMapping(value="/updateForm")
+	@ResponseBody
+	public HashMap<String, Object> updateForm(HttpServletRequest request){
+		System.out.println("게시판 수정하기!!!");
+		int doc_num = Integer.parseInt(request.getParameter("doc_num")); //doc_num 현재 문서 넘버 알아야함...		
+		List<ApprHisDTO> apprList = boardService.getApprHisCont(doc_num); //결재내역
+		
+		//list들을 map에 넣어서 ajax로 보내기
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("apprList", apprList);
+		return map;
+		//수정할 게시글의 글을 불러와서 list에 담은 다음 ajax로 넘겨서 그걸 select box로 붙여넣어준다!
+	}
+	
+	
+	//수정 내용 update하기!!!
+	@RequestMapping(value="/contUpdateForm")
+	public void boardUpdate(ApprBoardInsertDTO apprBoardInsertDTO){
+		System.out.println("게시판 수정글 update!");
+		boardService.boardUpdate(apprBoardInsertDTO);
+	}
+	
+	
 }

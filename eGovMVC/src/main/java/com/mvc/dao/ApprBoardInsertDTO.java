@@ -3,6 +3,9 @@ package com.mvc.dao;
 import java.sql.Date;
 import java.util.Arrays;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ApprBoardInsertDTO {
 	
 	//게시판

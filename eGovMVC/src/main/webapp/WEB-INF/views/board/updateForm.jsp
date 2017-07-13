@@ -9,10 +9,10 @@
 <body>
 
 <jsp:include page="/WEB-INF/javascriptTag.jsp" flush="true" />
-<%-- <script src="${pageContext.request.contextPath}/resources/js/selectBox.js"></script> --%>
+<script src="${pageContext.request.contextPath}/resources/js/selectBox.js"></script>
 
 <h2> 경비 지출 보고서 </h2>
-	<form action="/test/board/insertForm" method="post">
+	<form action="/test/board/contUpdateForm" method="post">
 		<table id="apprTable" border="1">
 			<tr>
 				<th>보고서 번호</th>
@@ -21,13 +21,15 @@
 			</tr>
 			
 			<tr>
-				<td>${boardCont.doc_num}</td>
-				<td><input type="text" value="${boardCont.doc_title}" /></td>		
-				<td>
-					${boardCont.mber_nm}
-					<input type="hidden" id="mber_num" name="mber_num" value="${boardCont.mber_num}"> <!-- 작성자 번호 -->
-					<input type="hidden" id="mber_id" name="mber_id" value="${boardCont.mber_id}"> <!-- 작성자 아이디 -->
-				</td>
+				<c:forEach items="${boardCont}" var="boardCont">
+					<td>${boardCont.doc_num} <input type="hidden" id="updateForm" value="${boardCont.doc_num}" /> </td>
+					<td><input type="text" value="${boardCont.doc_title}" /></td>		
+					<td>
+						${boardCont.mber_nm}
+						<input type="hidden" id="mber_num" name="mber_num" value="${boardCont.mber_num}"> <!-- 작성자 번호 -->
+						<input type="hidden" id="mber_id" name="mber_id" value="${boardCont.mber_id}"> <!-- 작성자 아이디 -->
+					</td>
+				</c:forEach>
 			</tr>	
 		
 			<tr>	
@@ -37,38 +39,6 @@
 				<th>지출일</th>
 				<th>지출내용</th>
 				<th>지출금액</th>
-			</tr>
-			
-			<tr>			
-				<!-- 대분류 -->
-				<td>			
-					<select id="group_cd1" name="group_cd" onchange="getCode(1)">				
-						<option value="null"> ---대분류--- </option>
-					</select>
-				</td>
-				
-				<!-- 소분류 -->
-				<td>				
-					<select id="cd1" name="cd">				
-						<option value="null"> ---소분류--- </option>
-					</select>
-				</td>
-				
-				<!-- 지출구분 -->
-				<td>
-					<select id="sp_div1" name="sp_div">				
-						<option value="null"> ---구분--- </option>
-					</select>				
-				</td>
-				
-				<!-- 지출일 -->
-				<td><input type="date" id="sp_date" name="sp_date"></td>
-					
-				<!-- 지출내용 -->
-				<td><input type="text" id="sp_cont" name="sp_cont"></td>			
-				
-				<!-- 지출금액 -->
-				<td><input type="text" id="sp_pay" name="sp_pay"></td>		
 			</tr>
 		</table>
 		

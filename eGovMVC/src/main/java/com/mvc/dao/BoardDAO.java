@@ -101,4 +101,9 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		getSqlSession().update("boardMapper.upCount", doc_num);
 	}
 	
+	//게시글 수정
+	public void boardUpdate(ApprBoardInsertDTO apprBoardInsertDTO){
+		//
+	}
+	
 }

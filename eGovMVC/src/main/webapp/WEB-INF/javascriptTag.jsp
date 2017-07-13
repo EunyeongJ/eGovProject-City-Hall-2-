@@ -6,4 +6,4 @@
 <script src="${pageContext.request.contextPath}/resources/js/memberLoginScript.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/selectBoxScript.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/boardScript.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/boardUpdateScript.js"></script>
+

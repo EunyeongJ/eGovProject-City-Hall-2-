@@ -47,30 +47,55 @@ public class BoardService {
 	}*/
 	
 	
-	
-	
-	
+
 	//공통코드 새로 가져오기
 	public HashMap<String, Object> getCode(HttpServletRequest request){
-		System.out.println("getCode");
+		System.out.println("getCode 서비스");
 		
-		String value1 = request.getParameter("1"); //null
-		String value2 = request.getParameter("2"); //null
-		String value3 = request.getParameter("3"); //null
-		System.out.println("value1 : "+value1+", value2 : "+value2+", value3 : "+value3);
-		
+		//공통코드 가져오는 map
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		String chkCD = request.getParameter("chkCD");
+		String cdVal = request.getParameter("cdVal");
+		
+		/*
+		 * 
+		var data = getSelectCode('g_cd', null);
+		var data = getSelectCode('c_cd', null);
+		var data = getSelectCode('s_cd', null);
+		 */
+		String dbParam = "";
+		if(chkCD.equals("g_cd")){
+			dbParam = "AD01";	
+		} else if (chkCD.equals("c_cd")) {
+			dbParam = "AD01"+cdVal;	
+		} else if (chkCD.equals("s_cd")) {
+			dbParam = "AD02";	
+		}
+		
+		List<CommonCodeDTO> list = boardDAO.getCode(dbParam); //대분류 내역 꺼내오기
+		map.put("chkCD", chkCD);
+		map.put("list", list);	
+		return map;
+	}
+	
+	/*public HashMap<String, Object> getCode(HttpServletRequest request){
+		System.out.println("getCode 서비스");
+		
+		//공통코드 가져오는 map
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String value1 = request.getParameter("1"); //대분류
+		String value2 = request.getParameter("2"); //소분류
+		String value3 = request.getParameter("3"); //구분
+		String doc_num_String = request.getParameter("doc_num");
+		System.out.println("value1 : "+value1+", value2 : "+value2+", value3 : "+value3+", doc_num : "+doc_num_String);
 		
 		//대분류 내역이랑 구분이 null이면... -------> 조건 고치기
-		if(value1.equals("null") && value3.equals("null")){
+		if(value1.equals("00") && value3.equals("00")){
+			System.out.println("대분류, 구분 꺼내기 함수");
 			
 			String dbParam = "AD01";
 			List<CommonCodeDTO> list1 = boardDAO.getCode(dbParam); //대분류 내역 꺼내오기			
 
-			for(int a=0; a<list1.size(); a++){
-				System.out.println(list1.get(a).getCdnm());
-			}
-			
 			map.put("code1", 1);
 			map.put("list1", list1);
 			
@@ -79,10 +104,6 @@ public class BoardService {
 			dbParam = "AD02";
 			List<CommonCodeDTO> list3 = boardDAO.getCode(dbParam); //구분 꺼내오기
 			
-			for(int a=0; a<list3.size(); a++){
-				System.out.println(list3.get(a).getCdnm());
-			}
-
 			map.put("code3", 3);
 			map.put("list3", list3);
 			
@@ -91,7 +112,7 @@ public class BoardService {
 		
 		//대분류 내역이 null이 아니고, 중분류가 null이면 -------> 조건 고치기
 		if(value1.length() == 2 && (value2.equals("null") || value2.length() == 2)){			
-			
+			System.out.println("소분류 꺼내기 함수");
 			System.out.println(value2.length());
 			
 			String dbParam = "AD01"+value1;
@@ -105,10 +126,9 @@ public class BoardService {
 			map.put("list2", list2);
 			
 			return map;
-		}
-				
+		}				
 		return null;
-	}
+	}*/
 	
 	
 	//list가져오기
@@ -195,5 +215,9 @@ public class BoardService {
 		boardDAO.upCount(doc_num);
 	}
 	
+	//게시글 update 함수
+	public void boardUpdate(ApprBoardInsertDTO apprBoardInsertDTO){
+		boardDAO.boardUpdate(apprBoardInsertDTO);
+	}
 	
 }

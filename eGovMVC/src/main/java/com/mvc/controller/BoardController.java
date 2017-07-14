@@ -22,17 +22,18 @@ public class BoardController {
 	
 	@Autowired
 	BoardService boardService;
-		
-	//로그인 성공하여 게시판 들어가기
-	@RequestMapping(value = "/apprBoard")
+	
+	/*@RequestMapping(value = "/apprBoard")
 	public String apprBoardDefault(){
+		System.out.println("default");
 		return "redirect:apprBoard/1";
-	}
+	}*/
 	
 	//처음 들어올때는 게시판이 1번 페이지... 목록을 보여줘야함.
 	@RequestMapping(value="/apprBoard/{page}")
-	public String apprBoard(@PathVariable int page, Model model){
-		boardService.getBoardList(page, model); //List채로 다 들고오기
+	public String apprBoard(@PathVariable int page, Model model, HttpServletRequest request){	
+		System.out.println("/page");
+		boardService.getBoardList(page, model, request);
 		return "board/apprBoard";
 	}
 	

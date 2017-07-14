@@ -4,6 +4,6 @@
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/memberJoinScript.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/memberLoginScript.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/selectBoxScript.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/boardScript.js"></script>
+
 

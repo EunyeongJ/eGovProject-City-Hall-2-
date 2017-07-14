@@ -53,16 +53,6 @@
 	</select>
 	
 	
-	<!-- update하기 전에 삭제하고 다시 insert -->
-
-
-
-
-	
-	
-	
-	
-	
 	<!-- 게시판에 먼저 insert를 하고 양식들은 다른 테이블에 저장 -->
 	<insert id="insertBoard" parameterType="com.mvc.dao.ApprBoardDTO">
 		<selectKey keyProperty="doc_num" resultType="int" order="AFTER">
@@ -177,6 +167,25 @@
 		SET doc_cnt = doc_cnt+1
 		WHERE doc_num = #{doc_num} 
 	</update>
-
+	
+	<!-- list갯수 select-->
+	<select id="listCount" parameterType="int" resultType="int" >
+		SELECT list_count
+		FROM listCountTable
+		WHERE count_num = #{list_count}
+	</select>
+	
+	<!-- 갯수 update! -->
+	<update id="updateListCount" parameterType="map">
+		UPDATE listCountTable
+		SET list_count = #{change_count}
+		WHERE count_num = #{list_count}
+	</update>
+	
+	<!-- 한큐에 갯수 정리 -->
+	<update id="defaultCount" parameterType="int">
+		UPDATE listCountTable
+		SET list_count = #{list_count}
+	</update>
 	
 </mapper>

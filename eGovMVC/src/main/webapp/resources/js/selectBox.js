@@ -79,7 +79,7 @@ function getCode(num){
 	
 	if(data != 'error'){
 		//대분류를 누르면 소분류를 가져온다.
-		$("#cd"+num).find("option").remove().end().append("<option value='null'> ---소분류--- </option>"); //옵션 뜬거 지우고 새로 띄우기
+		$("#cd"+num).find("option").remove().end().append("<option value='00'> ---소분류--- </option>"); //옵션 뜬거 지우고 새로 띄우기
 		for(var a=0; a<data.list.length; a++){				
 			$("#cd"+num).append("<option value='"+data.list[a].cd+"'>"+ data.list[a].cdnm +"</option>");
 		}

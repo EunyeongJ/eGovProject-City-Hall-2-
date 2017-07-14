@@ -71,7 +71,7 @@
 		</c:forEach>	
 	</table>
 	
-	<a href="/test/board/apprBoard"><button>목록</button></a>
+	<a href="/test/board/apprBoard/1"><button>목록</button></a>
 	
 	<c:forEach items="${boardCont}" var="boardCont">		
 		<c:if test="${sessionScope.session_mber_num == boardCont.mber_num}">			

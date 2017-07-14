@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -133,22 +134,43 @@ public class BoardService {
 	
 	//list가져오기
 	//int page는 현재 몇 페이지인지 확인하기 위함
-	public void getBoardList(int page, Model model){
+	public void getBoardList(int page, Model model, HttpServletRequest request){
+		String checkNm = request.getParameter("checkNm"); //게시글
+		String listCheck = request.getParameter("listCheck"); //몇개
+		System.out.println(checkNm+", "+listCheck);
 		
-		//내가 게시판 list를 몇개로 보고 싶다.
-		//int listCount = Integer.parseInt(request.getParameter("listCount"));
+		//default
+		/*if(checkNm.equals("defaultCount")){
+			int listCheckInt = Integer.parseInt(listCheck);
+			boardDAO.defaultCount(listCheckInt);
+		}*/		
 		
 		//페이징 처리
-		int pageSize = 10;
-		
-		
-		/*int pageSize;		
-		if(request.getParameter("listCount") == null){
-			pageSize = 10; //일단 한 페이지에 글을 10개 보여줄거다!
-		}else{
-			pageSize = listCount;
-		}*/
-		
+		int pageSize = boardDAO.listCount(1); //기본 게시판 글 몇개
+		int pageBlock = boardDAO.listCount(2); //내가 페이지버튼을 몇개 만들것인가
+
+		if(checkNm != null && listCheck != null){
+			int listCheckInt = Integer.parseInt(listCheck);
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			
+			//게시글
+			if(checkNm.equals("listCount")){
+				//pageSize = listCheckInt;				
+				map.put("list_count", 1);
+				map.put("change_count", listCheckInt);
+				boardDAO.updateListCount(map);
+			}
+			
+			//블럭
+			if(checkNm.equals("blockCount")){
+				//pageBlock = listCheckInt;
+				map.put("list_count", 2);
+				map.put("change_count", listCheckInt);
+				boardDAO.updateListCount(map);
+			}
+		}
+		System.out.println("페이지갯수 "+pageSize+" , 페이지블럭 "+pageBlock);
 		
 		int first = (page - 1) * pageSize + 1; //목록 10개 중 첫번째 글 - 1 / 11 / 21 ... 
 		int last = page * pageSize; //목록 10개 중 마지막 글 - 10 / 20 / 30 ...
@@ -158,7 +180,7 @@ public class BoardService {
 		map.put("last", last);
 		List<ApprBoardDTO> list = boardDAO.getBoardList(map); //rownum을 붙여서 1번부터 10번까지 데려옴!
 		int count = boardDAO.getListCount();//총 글의 갯수	
-		
+	
 		//페이징 처리 후 모델에 데이터 입력
 		model.addAttribute("boardList", list);			//글 리스트
 		model.addAttribute("count", count);			//총 글의 개수
@@ -169,10 +191,11 @@ public class BoardService {
 		
 		//총 글의 갯수가 하나라도 있으면...
 		if(count > 0){
-			//총 페이지 수. 지금 글이 17개니까 10개씩 보여준다 치면 페이지는 총 2페이지. 10개, 7개... 이렇게인데 나머지가 있다면 페이지 수를 하나 더 늘려줘야 한다.
-			int pageCount = count / pageSize + (count % pageSize == 0? 0 : 1); //그래서 지금 2페이지
-			int pageBlock = 3; //내가 페이지버튼을 몇개 만들것인가
-			int startPage = (page / (pageBlock + 1)) * pageBlock + 1; //시작 페이지블록 ------------------------> 요부분이 이상한데 좀 더 만져보는게 좋을 것 같다!!!!!!
+			
+			int pageCount = count / pageSize + (count % pageSize == 0? 0 : 1); //총 블럭을 몇개 만들어야 하는가		
+			
+			int blockStartNum = (int)Math.ceil((double)page / pageBlock); //무조건 올림
+			int startPage = (blockStartNum - 1) * pageBlock + 1;
 			int endPage = startPage + pageBlock - 1; //끝 페이지블록
 			int tempEndPage = endPage; //임시 페이지 블록
 			
@@ -188,8 +211,8 @@ public class BoardService {
 			model.addAttribute("tempEndPage", tempEndPage); //끝 페이지블록 변경 전 내용
 		}
 		
-	}	
-		
+	}
+	
 	//게시글 insert 함수
 	public void insertBoard(ApprBoardInsertDTO apprBoardInsertDTO){
 		boardDAO.insertBoard(apprBoardInsertDTO);

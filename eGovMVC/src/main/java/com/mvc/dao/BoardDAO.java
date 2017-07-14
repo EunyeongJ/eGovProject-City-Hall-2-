@@ -56,11 +56,19 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	
 	//새 insert!
 	public void insertBoard(ApprBoardInsertDTO apprBoardInsertDTO){	
-		System.out.println("게시판에 넣기!!!!");			
+		System.out.println("게시판에 넣기!!!!");		
+		
+		/*for(int a=0; a<112; a++){
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("doc_title", "title"+a);
+			map.put("mber_num", 14);
+			map.put("mber_id", "hee");
+			getSqlSession().insert("boardMapper.insertBoard", map);
+		}*/
 		
 		//게시판에 넣기
 		getSqlSession().insert("boardMapper.insertBoard", apprBoardInsertDTO); //일단 게시판에 넣고
-		
+				
 		//map에 넣어서..
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
@@ -104,6 +112,21 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	//게시글 수정
 	public void boardUpdate(ApprBoardInsertDTO apprBoardInsertDTO){
 		//
+	}
+	
+	//게시글 갯수 가져오기
+	public int listCount(int list_count){
+		return getSqlSession().selectOne("boardMapper.listCount", list_count);		
+	}
+	
+	//갯수 업데이트
+	public void updateListCount(HashMap<String, Object> map){
+		getSqlSession().update("boardMapper.updateListCount", map);
+	}
+	
+	//default 업데이트
+	public void defaultCount(int list_count){
+		getSqlSession().update("boardMapper.defaultCount", list_count);
 	}
 	
 }

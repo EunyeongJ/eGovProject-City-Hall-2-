@@ -9,6 +9,7 @@
 <body>
 
 <jsp:include page="/WEB-INF/javascriptTag.jsp" flush="true" />
+<script src="${pageContext.request.contextPath}/resources/js/pageCheckScript.js"></script>
 
 ${sessionScope.session_mber_nm}님 <a href="/test/member/memberLogout"> 로그아웃 </a>
 <hr/>
@@ -30,6 +31,7 @@ ${sessionScope.session_mber_nm}님 <a href="/test/member/memberLogout"> 로그�
 	    </thead>
 	    
 	    <tbody>
+	    	<strong>총 글 개수 : <c:out value="${count}" /></strong>
 	    	<c:forEach items="${boardList}" var="boardList">
 	    		<tr>
 	    			<td>${boardList.doc_num}</td>
@@ -55,11 +57,11 @@ ${sessionScope.session_mber_nm}님 <a href="/test/member/memberLogout"> 로그�
 	    <c:forEach var="num" begin="${startPage}" end="${endPage}">
 	    	<c:choose>
 				<c:when test="${page == num}">
-					<a href="/test/board/apprBoard/${num}">${num} &nbsp; </a>
+					<a href="/test/board/apprBoard/${num}"><strong>${num}</strong></a>
 				</c:when>
 				
 				<c:otherwise> 
-					<a href="/test/board/apprBoard/${num}">${num} &nbsp; </a>
+					<a href="/test/board/apprBoard/${num}">${num}</a>
 				</c:otherwise>
 			</c:choose>
 	    </c:forEach>
@@ -73,8 +75,8 @@ ${sessionScope.session_mber_nm}님 <a href="/test/member/memberLogout"> 로그�
 	
 	<a href="/test/board/writeForm"><button>양식 작성</button></a> <br>
     
-	게시글 갯수 : <input type="text" id="listCount"> <button id="listCountButton">보기</button> <br>
- 	페이지 블록 갯수 : <input type="text" id="blockCount"> <button id="blockCountButton">보기</button> <br>
+	게시글 개수 : <input type="text" id="listCount"> <button id="listCountButton">보기</button> <br>
+ 	블록 개수 : <input type="text" id="blockCount"> <button id="blockCountButton">보기</button> <br>
 
 </body>
 </html>

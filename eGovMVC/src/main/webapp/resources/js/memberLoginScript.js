@@ -21,7 +21,7 @@ function memberLoginCheck(){
 		data:{"mber_id" : mber_id, "mber_pw" : mber_pw},
 		success:function(data){
 			if(data == 'success'){
-				location.href = "/test/board/apprBoard";
+				location.href = "/test/board/apprBoard/1";
 			}else{
 				alert("로그인에 실패하였습니다. 아이디와 비밀번호를 다시 입력해주세요.");
 				$("#mber_id").val('');
